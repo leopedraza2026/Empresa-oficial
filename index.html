@@ -336,6 +336,182 @@
         }
         .autosave-indicator.visible { opacity: 1; }
 
+        /* --- ESTILOS DEL BANNER DE LA TIENDA --- */
+        #shop-banner-container {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .shop-banner-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .shop-banner-info {
+            padding: 0 20px 25px 20px;
+            position: relative;
+        }
+
+        .shop-banner-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin-top: -60px;
+            background: #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .shop-banner-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        .shop-banner-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .shop-banner-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .shop-banner-cover { height: 150px; }
+            .shop-banner-logo { width: 90px; height: 90px; margin-top: -45px; }
+            .shop-banner-title { font-size: 1.5rem; }
+        }
+
+        /* --- NUEVO: ESTILOS PARA MÓVIL (TIENDA ESPECÍFICA) --- */
+        /* Solo aplica si la grilla tiene la clase 'mobile-store-view' */
+        .product-grid.mobile-store-view {
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+            gap: 10px;
+            background-color: #e0e0e0; /* Fondo gris entre imágenes */
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .product-grid.mobile-store-view .product-card {
+            background: transparent;
+            box-shadow: none;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            padding: 0;
+            display: block; /* Resetear flex */
+        }
+
+        .product-grid.mobile-store-view .product-card:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .product-grid.mobile-store-view .product-img {
+            height: 160px; /* Altura fija para cuadrícula */
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .product-grid.mobile-store-view .product-card:active .product-img {
+            opacity: 0.8;
+        }
+
+        /* Ocultar toda la info cuando está en vista móvil de tienda */
+        .product-grid.mobile-store-view .product-info {
+            display: none;
+        }
+
+        /* --- ESTILOS MODAL DETALLE PRODUCTO (MÓVIL) --- */
+        #product-detail-modal {
+            z-index: 3000;
+        }
+        
+        #product-detail-modal .modal-content {
+            max-width: 500px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 0;
+            border-radius: 0; /* Full width feel on mobile */
+        }
+
+        @media (min-width: 769px) {
+            #product-detail-modal .modal-content {
+                border-radius: 20px; /* Rounded on desktop */
+            }
+        }
+
+        .pdm-img-container {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .pdm-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Mostrar imagen completa */
+        }
+
+        .pdm-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pdm-body {
+            padding: 20px;
+        }
+
+        .pdm-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin: 10px 0;
+        }
+
+        .pdm-desc {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -376,6 +552,28 @@
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button class="btn btn-blue btn-sm" onclick="saveGuestInfo()">Guardar y Continuar</button>
                 <button class="btn btn-red btn-sm" onclick="document.getElementById('guest-modal').classList.remove('active')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NUEVO: Modal de Detalle de Producto (Para Móvil) -->
+    <div id="product-detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="pdm-img-container">
+                <button class="pdm-close" onclick="closeProductDetailModal()">&times;</button>
+                <img src="" id="pdm-img" class="pdm-img">
+            </div>
+            <div class="pdm-body">
+                <span class="product-tag" id="pdm-tag">Depto</span>
+                <h2 style="font-family:'Playfair Display'; margin-top:10px;" id="pdm-title">Nombre</h2>
+                <div class="pdm-price" id="pdm-price">Bs. 0</div>
+                <p class="pdm-desc" id="pdm-desc">Descripción...</p>
+                
+                <!-- Botones de acción dentro del modal -->
+                <div class="card-actions">
+                    <button class="btn-green" id="pdm-whatsapp-btn" style="font-size:0.9rem;">WhatsApp</button>
+                    <button class="btn-action-like" id="pdm-like-btn" style="font-size:0.9rem;">❤️ Me gusta</button>
+                </div>
             </div>
         </div>
     </div>
@@ -678,7 +876,28 @@
 
         <!-- 6. CATÁLOGO (EXPLORA TODO / TIENDA) -->
         <section id="view-catalog" class="view-section hidden container">
-            <div class="catalog-header">
+            
+            <!-- CONTENEDOR PARA EL BANNER DE LA TIENDA -->
+            <div id="shop-banner-container">
+                <img src="" id="shop-banner-cover-img" class="shop-banner-cover">
+                <div class="shop-banner-info">
+                    <img src="" id="shop-banner-logo-img" class="shop-banner-logo">
+                    <h2 id="shop-banner-title-text" class="shop-banner-title"></h2>
+                    <div class="shop-banner-meta">
+                        <span id="shop-banner-location">📍 </span>
+                        <span id="shop-banner-seller-name">Vendedor: </span>
+                    </div>
+                    <div class="shop-banner-badges" id="shop-banner-badges">
+                        <!-- Badges dinámicos aquí -->
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-blue btn-sm" onclick="followStore(filterSeller)" id="shop-banner-follow-btn">Seguir Tienda</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header estándar del catálogo -->
+            <div class="catalog-header" id="standard-catalog-header">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                     <h2 id="catalog-title" style="font-family:'Playfair Display', serif; color: var(--primary-blue);">Explora todo</h2>
                     <span id="catalog-subtitle" style="color:#888; font-size:0.9rem;">Buscando en todo Bolivia</span>
@@ -767,7 +986,6 @@
 
         // --- LÓGICA DE SEGUIR TIENDA ---
         function followStore(username) {
-            // Asegurar datos del cliente
             checkGuestInfo(() => {
                 const user = users.find(u => u.user === username);
                 if(user) {
@@ -779,27 +997,25 @@
                         user.followers.push(guestInfo.email);
                         saveData();
                         showToast("¡Siguiendo tienda! Te notificaremos cuando haya novedades.");
-                        if(document.getElementById('view-stores').classList.contains('hidden') === false) renderStoresList();
-                        else filterProducts(); 
+                        renderStoresList();
+                        filterProducts();
                     } else {
                         user.followers.splice(emailIndex, 1);
                         saveData();
                         showToast("Has dejado de seguir esta tienda.");
-                        if(document.getElementById('view-stores').classList.contains('hidden') === false) renderStoresList();
-                        else filterProducts();
+                        renderStoresList();
+                        filterProducts();
                     }
                 }
             });
         }
 
-        // --- LÓGICA DE LIKES (Uno por persona) ---
-        function likeProduct(id, btnElement) {
+        // --- LÓGICA DE LIKES ---
+        function likeProduct(id, btnElement, isModal = false) {
             checkGuestInfo(() => {
                 const product = products.find(p => p.id === id);
                 if(product) {
-                    // Inicializar array de emails si no existe
                     if(!product.likedBy) {
-                        // Si es legacy (número), limpiamos para empezar sistema nuevo estricto
                         if(typeof product.likes === 'number') product.likedBy = []; 
                         else product.likedBy = [];
                     }
@@ -811,18 +1027,58 @@
                         product.likedBy.push(email);
                         saveData();
                         
-                        // Actualizar UI (Conteo del array)
+                        // Actualizar UI en tarjeta
                         const span = btnElement.querySelector('span');
-                        if(span) span.innerText = product.likedBy.length;
+                        if(span && !isModal) span.innerText = product.likedBy.length;
                         
-                        // Animación visual
-                        btnElement.classList.add('liked');
-                        setTimeout(() => btnElement.classList.remove('liked'), 300);
+                        // Actualizar UI en modal si es aplicable
+                        const modalLikeText = document.getElementById('pdm-like-btn');
+                        if(modalLikeText) modalLikeText.innerHTML = `❤️ Me gusta (${product.likedBy.length})`;
+
+                        if(!isModal) {
+                            btnElement.classList.add('liked');
+                            setTimeout(() => btnElement.classList.remove('liked'), 300);
+                        } else {
+                            showToast("¡Te gusta este producto!", "success");
+                        }
                     } else {
                         showToast("¡Ya diste Me gusta a esta prenda!", "info");
                     }
                 }
             });
+        }
+
+        // --- NUEVO: MODAL DETALLE PRODUCTO (MÓVIL) ---
+        function openProductDetailModal(id) {
+            const product = products.find(p => p.id === id);
+            if(!product) return;
+
+            const seller = users.find(u => u.user === product.seller);
+            const waMsg = `Hola, vi "${product.name}" en BO Emprendedores. ¿Disponible?`;
+            const waLink = `https://wa.me/${product.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
+
+            // Rellenar datos
+            document.getElementById('pdm-img').src = product.img;
+            document.getElementById('pdm-tag').innerText = product.dept;
+            document.getElementById('pdm-title').innerText = product.name;
+            document.getElementById('pdm-price').innerText = `Bs. ${product.price}`;
+            document.getElementById('pdm-desc').innerText = product.desc;
+            
+            // Botón WhatsApp
+            const waBtn = document.getElementById('pdm-whatsapp-btn');
+            waBtn.onclick = function() { window.open(waLink, '_blank'); };
+
+            // Botón Like
+            const likeCount = product.likedBy ? product.likedBy.length : 0;
+            const likeBtn = document.getElementById('pdm-like-btn');
+            likeBtn.innerHTML = `❤️ Me gusta (${likeCount})`;
+            likeBtn.onclick = function() { likeProduct(product.id, this, true); };
+
+            document.getElementById('product-detail-modal').classList.add('active');
+        }
+
+        function closeProductDetailModal() {
+            document.getElementById('product-detail-modal').classList.remove('active');
         }
 
         // --- SISTEMA DE INVITADO (LOGIN RÁPIDO) ---
@@ -1102,10 +1358,8 @@
                 const logo = s.storeLogo || 'https://via.placeholder.com/80?text=Logo';
                 const cover = s.storeCover || 'https://via.placeholder.com/300x150?text=Portada';
                 
-                // Badge de Tipo de Tienda
                 const typeBadge = getStoreTypeBadgeHTML(s.storeType);
                 
-                // Verificar si el usuario actual (invitado) sigue esta tienda
                 const isFollowing = guestInfo && s.followers && s.followers.includes(guestInfo.email);
                 const followBtnText = isFollowing ? "✓ Siguiendo" : "🔔 Seguir";
                 const followBtnClass = isFollowing ? "btn-sm following" : "btn-sm btn-gold"; 
@@ -1144,7 +1398,7 @@
             document.getElementById('profile-fullname').value = currentUser.fullname || '';
             document.getElementById('profile-phone').value = currentUser.phone || '';
             document.getElementById('store-name-input').value = currentUser.storeName || '';
-            document.getElementById('store-type-input').value = currentUser.storeType || 'online'; // Cargar tipo
+            document.getElementById('store-type-input').value = currentUser.storeType || 'online'; 
             document.getElementById('store-dept-input').value = currentUser.storeDept || 'La Paz';
             
             if(currentUser.storeLogo) {
@@ -1268,7 +1522,7 @@
 
         function saveStoreConfig() {
             const name = document.getElementById('store-name-input').value;
-            const type = document.getElementById('store-type-input').value; // Guardar tipo
+            const type = document.getElementById('store-type-input').value; 
             const dept = document.getElementById('store-dept-input').value;
             if(!name) return showToast("Ponle un nombre a tu tienda", 'error');
             
@@ -1278,7 +1532,7 @@
 
             setTimeout(() => {
                 currentUser.storeName = name;
-                currentUser.storeType = type; // Guardar tipo en objeto usuario
+                currentUser.storeType = type; 
                 currentUser.storeDept = dept;
                 if(tempStoreLogo) currentUser.storeLogo = tempStoreLogo;
                 if(tempStoreCover) currentUser.storeCover = tempStoreCover;
@@ -1334,13 +1588,12 @@
                     img: tempProdImg || `https://picsum.photos/seed/${Date.now()}/300/300`,
                     seller: currentUser.user,
                     sellerPhone: currentUser.phone || "61348083",
-                    likedBy: [] // Array vacío para likes nuevos
+                    likedBy: []
                 };
                 
                 products.unshift(newProd);
                 saveData();
                 
-                // --- NOTIFICACIÓN A SEGUIDORES ---
                 const followersCount = currentUser.followers ? currentUser.followers.length : 0;
                 if(followersCount > 0) {
                     showToast(`📧 Notificación enviada a ${followersCount} seguidores.`);
@@ -1379,7 +1632,7 @@
             }
         }
 
-        // --- CATALOGO (FILTROS + NUEVAS FUNCIONES + NUEVA INTERFAZ) ---
+        // --- CATALOGO (LOGICA ACTUALIZADA CON VISTA MÓVIL) ---
         function filterProducts() {
             const dept = document.getElementById('dept-filter').value;
             const search = document.getElementById('search-input').value.toLowerCase();
@@ -1387,13 +1640,45 @@
             const title = document.getElementById('catalog-title');
             const subtitle = document.getElementById('catalog-subtitle');
 
+            // Referencias al Banner de Tienda
+            const shopBannerContainer = document.getElementById('shop-banner-container');
+            const standardHeader = document.getElementById('standard-catalog-header');
+
             grid.innerHTML = '';
 
-            if(filterSeller) {
+            // --- DETECCIÓN DE MODO MÓVIL Y TIENDA ---
+            const isMobile = window.innerWidth <= 768;
+            const isStoreView = !!filterSeller;
+            const useMobileGrid = isMobile && isStoreView;
+
+            // LÓGICA PRINCIPAL: ¿Estamos viendo una tienda específica?
+            if (filterSeller) {
                 const sellerInfo = users.find(u => u.user === filterSeller);
-                title.innerText = sellerInfo ? sellerInfo.storeName : "Tienda";
-                subtitle.innerText = "Explorando productos de esta tienda";
+                
+                if (sellerInfo) {
+                    shopBannerContainer.style.display = 'block';
+                    standardHeader.style.display = 'none'; 
+
+                    // Llenar datos del banner
+                    document.getElementById('shop-banner-cover-img').src = sellerInfo.storeCover || 'https://via.placeholder.com/600x200';
+                    document.getElementById('shop-banner-logo-img').src = sellerInfo.storeLogo || 'https://via.placeholder.com/100';
+                    document.getElementById('shop-banner-title-text').innerText = sellerInfo.storeName || "Tienda sin nombre";
+                    document.getElementById('shop-banner-location').innerText = `📍 ${sellerInfo.storeDept || 'Bolivia'}`;
+                    document.getElementById('shop-banner-seller-name').innerText = `Vendedor: ${sellerInfo.fullname || sellerInfo.user}`;
+                    document.getElementById('shop-banner-badges').innerHTML = getStoreTypeBadgeHTML(sellerInfo.storeType);
+
+                    const isFollowing = guestInfo && sellerInfo.followers && sellerInfo.followers.includes(guestInfo.email);
+                    const followBtn = document.getElementById('shop-banner-follow-btn');
+                    followBtn.innerText = isFollowing ? "✓ Siguiendo" : "🔔 Seguir Tienda";
+                    followBtn.className = isFollowing ? "btn btn-sm following" : "btn btn-blue btn-sm";
+                } else {
+                    shopBannerContainer.style.display = 'none';
+                    standardHeader.style.display = 'block';
+                    title.innerText = "Tienda no encontrada";
+                }
             } else {
+                shopBannerContainer.style.display = 'none';
+                standardHeader.style.display = 'block';
                 title.innerText = "Explora todo";
                 subtitle.innerText = "Buscando en todo Bolivia";
             }
@@ -1407,17 +1692,36 @@
 
             if(filtered.length === 0) grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Sin resultados.</p>';
 
+            // --- CLASE PARA ACTIVAR ESTILOS MÓVILES ---
+            if(useMobileGrid) {
+                grid.classList.add('mobile-store-view');
+            } else {
+                grid.classList.remove('mobile-store-view');
+            }
+
             filtered.forEach(p => {
+                // SI ES MÓVIL Y TIENDA: RENDERIZAR SIMPLE (SOLO IMAGEN)
+                if(useMobileGrid) {
+                    const div = document.createElement('div');
+                    div.className = 'product-card';
+                    div.onclick = () => openProductDetailModal(p.id);
+                    
+                    div.innerHTML = `
+                        <img src="${p.img}" class="product-img">
+                    `;
+                    grid.appendChild(div);
+                    return; 
+                }
+
+                // SINO: RENDERIZAR TARJETA NORMAL
                 const waMsg = `Hola, vi "${p.name}" en BO Emprendedores. ¿Disponible?`;
                 const waLink = `https://wa.me/${p.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
 
-                // OBTENER DATOS DEL VENDEDOR PARA EL MINI PERFIL EN LA TARJETA
                 const seller = users.find(u => u.user === p.seller);
                 const storeLogo = seller?.storeLogo || 'https://via.placeholder.com/40/40.png';
                 const storeName = seller?.storeName || seller?.fullname || p.seller;
                 const storeTypeBadge = getStoreTypeBadgeHTML(seller?.storeType);
                 
-                // Verificar estado de seguimiento
                 let isFollowing = false;
                 if(guestInfo && seller?.followers) {
                     isFollowing = seller.followers.includes(guestInfo.email);
@@ -1425,7 +1729,6 @@
                 const followBtnText = isFollowing ? "Siguiendo" : "Seguir";
                 const followBtnClass = isFollowing ? "btn-mini-follow following" : "btn-mini-follow";
                 
-                // Contador de Likes (longitud del array)
                 const likesCount = p.likedBy ? p.likedBy.length : 0;
 
                 grid.innerHTML += `
@@ -1437,7 +1740,6 @@
                             <div class="product-price">Bs. ${p.price}</div>
                             <p style="font-size:0.85rem; color:#666;">${p.desc}</p>
                             
-                            <!-- NUEVO SECCIÓN: PERFIL MINI DE TIENDA -->
                             <div class="store-mini-profile">
                                 <img src="${storeLogo}" class="store-mini-logo">
                                 <div class="store-mini-details">
@@ -1453,14 +1755,12 @@
                                 </div>
                             </div>
                             
-                            <!-- NUEVA POSICIÓN: ACCIÓN SOCIAL (SOLO LIKE) -->
                             <div class="social-actions">
                                 <button class="btn-action-like" onclick="likeProduct(${p.id}, this)">
                                     ❤️ <span id="likes-count-${p.id}">${likesCount}</span>
                                 </button>
                             </div>
 
-                            <!-- ACCIONES PRINCIPALES -->
                             <div class="card-actions">
                                 <button class="btn-blue" onclick="enterSellerStore('${p.seller}')">Ver Tienda</button>
                                 <button class="btn-green" onclick="window.open('${waLink}', '_blank')">WhatsApp</button>

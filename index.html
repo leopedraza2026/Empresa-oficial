@@ -278,7 +278,7 @@
 
         /* --- OTRAS VISTAS --- */
         .view-section { padding: 4rem 0; min-height: 80vh; animation: snapIn 0.2s ease forwards; }
-        @keyframes snapIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes snapIn { from { opacity: 0; } to { opacity:1; } }
         
         .login-card { background: white; padding: 3rem; border-radius: 20px; box-shadow: var(--shadow); max-width: 450px; margin: 0 auto; text-align: center; }
         .form-group { margin-bottom: 1.5rem; text-align: left; }
@@ -322,8 +322,8 @@
         .product-tag { font-size: 0.75rem; background: var(--primary-blue); color: white; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px; align-self: flex-start; font-weight: bold; }
         .product-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; color: var(--text-dark); }
         .product-price { color: var(--primary-blue); font-weight: 800; font-size: 1.4rem; margin: 10px 0; }
-        .card-actions { margin-top: auto; display: flex; gap: 10px; }
-        .card-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        .card-actions { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+        .card-actions button { flex: 1 1 40%; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
 
         /* Indicador de guardado automático */
         .autosave-indicator {
@@ -404,7 +404,7 @@
             .shop-banner-title { font-size: 1.5rem; }
         }
 
-        /* --- NUEVO: ESTILOS PARA MÓVIL (TIENDA ESPECÍFICA) --- */
+        /* --- ESTILOS PARA MÓVIL (TIENDA ESPECÍFICA) --- */
         /* Solo aplica si la grilla tiene la clase 'mobile-store-view' */
         .product-grid.mobile-store-view {
             grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
@@ -512,6 +512,41 @@
             line-height: 1.5;
             margin-bottom: 20px;
         }
+
+        /* --- ESTILOS DETALLES ESPECÍFICOS --- */
+        .details-section {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: var(--primary-blue);
+            width: 80px;
+            flex-shrink: 0;
+        }
+        .detail-value {
+            color: #444;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .detail-badge {
+            background: #fff;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -567,6 +602,13 @@
                 <span class="product-tag" id="pdm-tag">Depto</span>
                 <h2 style="font-family:'Playfair Display'; margin-top:10px;" id="pdm-title">Nombre</h2>
                 <div class="pdm-price" id="pdm-price">Bs. 0</div>
+                
+                <!-- SECCIÓN DETALLES (NUEVO) -->
+                <div id="pdm-details-section" class="details-section hidden">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+                <!-- FIN SECCIÓN DETALLES -->
+
                 <p class="pdm-desc" id="pdm-desc">Descripción...</p>
                 
                 <!-- Botones de acción dentro del modal -->
@@ -853,8 +895,68 @@
                             </div>
                             <img id="prod-img-preview" class="product-preview-img" alt="Vista previa producto">
                         </div>
+
+                        <!-- NUEVO: FORMULARIO DE DETALLES ESPECÍFICOS -->
+                        <div style="margin-top: 20px; padding: 15px; border: 1px solid #eee; border-radius: 10px; background: #fafafa;">
+                            <h4 style="font-size: 0.9rem; color: var(--primary-blue); margin-bottom: 10px;">📝 Detalles Específicos (Opcional)</h4>
+                            
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select id="prod-state" class="form-control input-draft">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="Nuevo">Nuevo</option>
+                                    <option value="Usado">Usado</option>
+                                    <option value="Reacondicionado">Reacondicionado</option>
+                                </select>
+                            </div>
+
+                            <div style="display:flex; gap:10px;">
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Talla 1</label>
+                                    <input type="text" id="size-1" class="form-control input-draft" placeholder="Ej: S">
+                                </div>
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Talla 2</label>
+                                    <input type="text" id="size-2" class="form-control input-draft" placeholder="Ej: M">
+                                </div>
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Talla 3</label>
+                                    <input type="text" id="size-3" class="form-control input-draft" placeholder="Ej: L">
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:10px; margin-top:10px;">
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Color 1</label>
+                                    <input type="text" id="color-1" class="form-control input-draft" placeholder="Ej: Rojo">
+                                </div>
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Color 2</label>
+                                    <input type="text" id="color-2" class="form-control input-draft" placeholder="Ej: Azul">
+                                </div>
+                                <div style="flex:1">
+                                    <label style="font-size:0.7rem;">Color 3</label>
+                                    <input type="text" id="color-3" class="form-control input-draft" placeholder="Ej: Negro">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top:10px;">
+                                <div class="form-group">
+                                    <label style="font-size:0.7rem;">Material</label>
+                                    <input type="text" id="det-material" class="form-control input-draft">
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size:0.7rem;">Manga</label>
+                                    <input type="text" id="det-sleeve" class="form-control input-draft">
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size:0.7rem;">Cuello</label>
+                                    <input type="text" id="det-neck" class="form-control input-draft">
+                                </div>
+                            </div>
+                        </div>
                         
-                        <button id="btn-add-product" class="btn btn-blue" style="width:100%" onclick="addProduct()">Publicar en Mi Mini Tienda</button>
+                        <button id="btn-add-product" class="btn btn-blue" style="width:100%; margin-top:15px;" onclick="addProduct()">Publicar en Mi Mini Tienda</button>
                         <div id="prod-autosave" class="autosave-indicator">Borrador guardado...</div>
                     </div>
                 </div>
@@ -1057,7 +1159,7 @@
             const waMsg = `Hola, vi "${product.name}" en BO Emprendedores. ¿Disponible?`;
             const waLink = `https://wa.me/${product.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
 
-            // Rellenar datos
+            // Rellenar datos básicos
             document.getElementById('pdm-img').src = product.img;
             document.getElementById('pdm-tag').innerText = product.dept;
             document.getElementById('pdm-title').innerText = product.name;
@@ -1073,6 +1175,49 @@
             const likeBtn = document.getElementById('pdm-like-btn');
             likeBtn.innerHTML = `❤️ Me gusta (${likeCount})`;
             likeBtn.onclick = function() { likeProduct(product.id, this, true); };
+
+            // --- MOSTRAR DETALLES ESPECÍFICOS ---
+            const detailsContainer = document.getElementById('pdm-details-section');
+            detailsContainer.innerHTML = '';
+            
+            // Chequear si existe algún detalle
+            const hasDetails = product.details || 
+                                (product.detailsState || product.detState) || 
+                                (product.sizes && product.sizes.length) || 
+                                (product.colors && product.colors.length) ||
+                                product.detMaterial || product.detSleeve || product.detNeck;
+
+            if(hasDetails) {
+                detailsContainer.classList.remove('hidden');
+                let html = '';
+
+                // Estado
+                const state = product.detailsState || product.detState || '';
+                if(state) html += `<div class="detail-row"><span class="detail-label">Estado:</span> <span class="detail-value">${state}</span></div>`;
+
+                // Tallas
+                const sizes = product.sizes || [];
+                if(sizes.length) {
+                    const badges = sizes.map(s => `<span class="detail-badge">${s}</span>`).join('');
+                    html += `<div class="detail-row"><span class="detail-label">Tallas:</span> <span class="detail-value">${badges}</span></div>`;
+                }
+
+                // Colores
+                const colors = product.colors || [];
+                if(colors.length) {
+                    const badges = colors.map(c => `<span class="detail-badge">${c}</span>`).join('');
+                    html += `<div class="detail-row"><span class="detail-label">Colores:</span> <span class="detail-value">${badges}</span></div>`;
+                }
+
+                // Otros
+                if(product.detMaterial) html += `<div class="detail-row"><span class="detail-label">Material:</span> <span class="detail-value">${product.detMaterial}</span></div>`;
+                if(product.detSleeve) html += `<div class="detail-row"><span class="detail-label">Manga:</span> <span class="detail-value">${product.detSleeve}</span></div>`;
+                if(product.detNeck) html += `<div class="detail-row"><span class="detail-label">Cuello:</span> <span class="detail-value">${product.detNeck}</span></div>`;
+
+                detailsContainer.innerHTML = html;
+            } else {
+                detailsContainer.classList.add('hidden');
+            }
 
             document.getElementById('product-detail-modal').classList.add('active');
         }
@@ -1575,6 +1720,22 @@
             const dept = document.getElementById('prod-dept').value;
             const desc = document.getElementById('prod-desc').value;
             
+            // Capturar detalles opcionales
+            const state = document.getElementById('prod-state').value;
+            const s1 = document.getElementById('size-1').value;
+            const s2 = document.getElementById('size-2').value;
+            const s3 = document.getElementById('size-3').value;
+            const c1 = document.getElementById('color-1').value;
+            const c2 = document.getElementById('color-2').value;
+            const c3 = document.getElementById('color-3').value;
+            const material = document.getElementById('det-material').value;
+            const sleeve = document.getElementById('det-sleeve').value;
+            const neck = document.getElementById('det-neck').value;
+
+            // Arrays de tallas y colores
+            const sizes = [s1, s2, s3].filter(s => s.trim() !== '');
+            const colors = [c1, c2, c3].filter(c => c.trim() !== '');
+
             if(!name || !price) return showToast("Faltan datos obligatorios", 'error');
 
             const btn = document.getElementById('btn-add-product');
@@ -1588,7 +1749,14 @@
                     img: tempProdImg || `https://picsum.photos/seed/${Date.now()}/300/300`,
                     seller: currentUser.user,
                     sellerPhone: currentUser.phone || "61348083",
-                    likedBy: []
+                    likedBy: [],
+                    // NUEVOS CAMPOS
+                    detState: state,
+                    sizes: sizes,
+                    colors: colors,
+                    detMaterial: material,
+                    detSleeve: sleeve,
+                    detNeck: neck
                 };
                 
                 products.unshift(newProd);
@@ -1601,6 +1769,7 @@
 
                 showToast("¡Producto guardado!");
                 
+                // Limpiar formulario
                 document.getElementById('prod-name').value = '';
                 document.getElementById('prod-price').value = '';
                 document.getElementById('prod-stock').value = '';
@@ -1609,6 +1778,18 @@
                 document.getElementById('prod-img-preview').style.display = 'none';
                 tempProdImg = null;
                 
+                // Limpiar detalles
+                document.getElementById('prod-state').value = '';
+                document.getElementById('size-1').value = '';
+                document.getElementById('size-2').value = '';
+                document.getElementById('size-3').value = '';
+                document.getElementById('color-1').value = '';
+                document.getElementById('color-2').value = '';
+                document.getElementById('color-3').value = '';
+                document.getElementById('det-material').value = '';
+                document.getElementById('det-sleeve').value = '';
+                document.getElementById('det-neck').value = '';
+
                 saveDrafts(); 
                 
                 btn.innerText = "Guardado ✓";
@@ -1764,6 +1945,8 @@
                             <div class="card-actions">
                                 <button class="btn-blue" onclick="enterSellerStore('${p.seller}')">Ver Tienda</button>
                                 <button class="btn-green" onclick="window.open('${waLink}', '_blank')">WhatsApp</button>
+                                <!-- NUEVO BOTÓN DETALLES -->
+                                <button class="btn-orange" onclick="openProductDetailModal(${p.id})">Detalles</button>
                             </div>
                         </div>
                     </div>

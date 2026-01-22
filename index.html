@@ -69,6 +69,39 @@
         .btn-sm { padding: 8px 15px; font-size: 0.75rem; border-radius: 15px; width: 100%; margin-top: 5px; }
         .btn-action-save { background-color: var(--accent-green) !important; }
 
+        /* --- NUEVO: BOTÓN VOLVER (BARRA SUPERIOR) --- */
+        .top-action-bar {
+            padding: 10px 0;
+            margin-bottom: 10px;
+            display: none; /* Oculto por defecto */
+            animation: slideDown 0.3s ease forwards;
+        }
+        
+        .top-action-bar.visible {
+            display: block;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 16px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .btn-back:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateX(-5px);
+        }
+
         /* --- NUEVO: BADGES DE TIPO DE TIENDA --- */
         .store-type-badge {
             font-size: 0.7rem;
@@ -227,7 +260,7 @@
         .btn-mini-follow.following { background: var(--accent-gold); color: var(--primary-blue); font-weight: bold; border-color: var(--accent-gold); }
 
         /* --- HEADER & NAVEGACIÓN RESPONSIVE --- */
-        header { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        header { background-color: rgba(255,255,255, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .navbar { display: flex; justify-content: space-between; align-items: center; position: relative; }
         
         .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; }
@@ -256,7 +289,7 @@
         #view-home { padding: 0 !important; min-height: 90vh; display: flex; align-items: center; justify-content: center; background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2058'); background-size: cover; background-position: center; position: relative; }
         #view-home::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(10,25,47,0.9) 0%, rgba(10,25,47,0.7) 100%); }
         
-        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 50px 30px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 50px 30px; background: rgba(255,255,255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .hero-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--white); margin-bottom: 1.5rem; line-height: 1.1; }
         .hero-subtitle { font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 2.5rem; font-weight: 300; line-height: 1.6; }
         
@@ -443,6 +476,39 @@
         /* Ocultar toda la info cuando está en vista móvil de tienda */
         .product-grid.mobile-store-view .product-info {
             display: none;
+        }
+
+        /* --- NUEVO: OVERLAY DE LIKES PARA MÓVIL --- */
+        .mobile-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%; 
+            min-height: 160px; 
+        }
+
+        .mobile-like-overlay {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 5;
+            user-select: none;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mobile-like-overlay.liked {
+            color: #d63031; /* Rojo más oscuro para liked */
+            background: white;
         }
 
         /* --- ESTILOS MODAL DETALLE PRODUCTO (MÓVIL) --- */
@@ -661,7 +727,7 @@
                     <div class="badge">🛡️ Confianza</div>
                     <div class="badge">🚚 Envíos Rápidos</div>
                     <div class="badge">⭐ Soporte 24/7</div>
-                    <div class="badge">💾 Guardado Automático</div>
+                    <div class="badge">💾 IndexedDB Activado</div>
                 </div>
 
                 <div class="hero-buttons">
@@ -965,7 +1031,7 @@
                 <div style="display:flex; flex-direction:column; gap:25px;">
                     <div class="seller-card" style="padding: 1.5rem; background: #e3f2fd; border: 1px solid #bbdefb;">
                         <h4 style="color: var(--primary-blue);">💡 Tip</h4>
-                        <p style="font-size:0.9rem; color:#555;">El sistema guarda tus cambios automáticamente. Si cierras la página por error, tus datos escritos se restaurarán al volver.</p>
+                        <p style="font-size:0.9rem; color:#555;">El sistema usa IndexedDB. Puedes guardar muchas más imágenes que antes.</p>
                     </div>
 
                     <div class="seller-card" style="flex-grow:1; padding: 1.5rem; overflow-y: auto; max-height: 500px;">
@@ -979,6 +1045,17 @@
         <!-- 6. CATÁLOGO (EXPLORA TODO / TIENDA) -->
         <section id="view-catalog" class="view-section hidden container">
             
+            <!-- BARRA DE VOLVER (NUEVA) -->
+            <div id="catalog-back-bar" class="top-action-bar">
+                <div class="btn-back" onclick="goBack()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <path d="M12 19l-7-7 7-7"></path>
+                    </svg>
+                    Volver
+                </div>
+            </div>
+
             <!-- CONTENEDOR PARA EL BANNER DE LA TIENDA -->
             <div id="shop-banner-container">
                 <img src="" id="shop-banner-cover-img" class="shop-banner-cover">
@@ -1028,20 +1105,238 @@
     </main>
 
     <script>
-        // --- VARIABLES GLOBALES ---
-        let pendingAction = null; 
+        // --- CONFIGURACIÓN INDEXEDDB ---
+        const DB_NAME = 'BOEmprendedoresDB';
+        const DB_VERSION = 1;
+        let db;
 
-        // Datos del cliente temporal (no vendedor)
-        let guestInfo = JSON.parse(localStorage.getItem('guest_info')) || null;
+        const defaultUsers = [
+            { 
+                user: 'admin', pass: '1234', role: 'admin', phone: '61348083', 
+                storeName: 'Oficial BO', storeLogo: 'https://picsum.photos/seed/logo1/100/100', storeCover: 'https://picsum.photos/seed/cover1/300/150', fullname: 'Administrador',
+                storeDept: 'La Paz', storeType: 'hibrida', followers: []
+            },
+            { 
+                user: 'vendedor', pass: '1234', role: 'vendedor', phone: '71234567', 
+                storeName: 'Modas Juan', storeLogo: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=150', storeCover: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?q=80&w=300', fullname: 'Juan Pérez',
+                storeDept: 'Santa Cruz', storeType: 'online', followers: ['cliente1@mail.com']
+            }
+        ];
 
-        // --- FUNCIÓN PARA SOLUCIONAR EL PROBLEMA DE FILTROS ---
-        function resetFilters() {
-            filterSeller = null; 
-            document.getElementById('dept-filter').value = 'all';
-            document.getElementById('search-input').value = '';
-            document.getElementById('catalog-title').innerText = "Explora todo";
-            document.getElementById('catalog-subtitle').innerText = "Buscando en todo Bolivia";
+        const defaultProducts = [
+            { id: 1, name: "Blazer Elegante", category: "Chaqueta", price: 250, dept: "La Paz", img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1936", seller: "vendedor", desc: "Elegancia pura.", sellerPhone: "71234567", stock: 5, likedBy: [] },
+            { id: 2, name: "Vestido Floral", category: "Vestido", price: 180, dept: "Santa Cruz", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1887", seller: "vendedor", desc: "Para el verano.", sellerPhone: "71234567", stock: 10, likedBy: [] },
+            { id: 3, name: "Zapatillas Urbanas", category: "Zapatillas", price: 300, dept: "Cochabamba", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070", seller: "admin", desc: "Estilo urbano.", sellerPhone: "61348083", stock: 2, likedBy: [] }
+        ];
+
+        // --- FUNCIONES DE BASE DE DATOS (HELPERS) ---
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    // Store para usuarios
+                    if (!db.objectStoreNames.contains('users')) {
+                        const userStore = db.createObjectStore('users', { keyPath: 'user' });
+                    }
+                    // Store para productos
+                    if (!db.objectStoreNames.contains('products')) {
+                        const productStore = db.createObjectStore('products', { keyPath: 'id' });
+                    }
+                    // Store para metadatos (drafts, guest_info)
+                    if (!db.objectStoreNames.contains('meta')) {
+                        const metaStore = db.createObjectStore('meta', { keyPath: 'id' });
+                    }
+                };
+
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+
+                request.onerror = (event) => {
+                    console.error("Error abriendo DB", event);
+                    reject("Error abriendo base de datos");
+                };
+            });
         }
+
+        // Obtener todos los registros de una tienda
+        function getAll(storeName) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
+
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Guardar o actualizar un registro
+        function put(storeName, data) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.put(data);
+
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Borrar un registro
+        function deleteItem(storeName, key) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.delete(key);
+
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Limpiar toda la tienda y reemplazar con nuevo array (Para guardar estado global)
+        function bulkPut(storeName, dataArray) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                // Limpiar primero para asegurar consistencia total (estrategia simple)
+                const clearReq = store.clear();
+                
+                clearReq.onsuccess = () => {
+                    dataArray.forEach(item => store.put(item));
+                    resolve();
+                };
+                clearReq.onerror = () => reject(clearReq.error);
+            });
+        }
+
+        // --- VARIABLES GLOBALES Y ESTADO ---
+        let users = [];
+        let products = [];
+        let currentUser = null;
+        let filterSeller = null; 
+        let guestInfo = null;
+        let pendingAction = null;
+        
+        // --- NUEVO: VARIABLE PARA NAVEGACIÓN INTELIGENTE ---
+        let navigationSource = 'catalog'; // 'catalog' o 'stores'
+
+        let tempProdImg = null;
+        let tempStoreLogo = null;
+        let tempStoreCover = null;
+
+        // --- INICIALIZACIÓN ---
+        async function initApp() {
+            try {
+                await openDB();
+                
+                // Cargar Datos
+                const loadedUsers = await getAll('users');
+                const loadedProducts = await getAll('products');
+
+                if (loadedUsers.length === 0) {
+                    // Semilla inicial
+                    await bulkPut('users', defaultUsers);
+                    await bulkPut('products', defaultProducts);
+                    users = [...defaultUsers];
+                    products = [...defaultProducts];
+                } else {
+                    users = loadedUsers;
+                    products = loadedProducts;
+                }
+
+                // Cargar Metadatos
+                const metaGuest = await getMeta('guest_info');
+                if(metaGuest) guestInfo = metaGuest;
+
+                // Cargar borradores
+                await loadDrafts();
+
+                // Mostrar Home
+                showView('home');
+
+            } catch (err) {
+                console.error("Error iniciando app:", err);
+                showToast("Error cargando base de datos", "error");
+            }
+        }
+
+        // Helpers para Meta Store
+        function getMeta(key) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['meta'], 'readonly');
+                const store = tx.objectStore('meta');
+                const req = store.get(key);
+                req.onsuccess = () => resolve(req.result ? req.result.value : null);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function setMeta(key, value) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['meta'], 'readwrite');
+                const store = tx.objectStore('meta');
+                const req = store.put({ id: key, value: value });
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+
+        // --- LÓGICA DE PERSISTENCIA (REEMPLAZO A LOCALSTORAGE) ---
+
+        async function saveData() {
+            if(currentUser) {
+                // Actualizar usuario actual en el array global
+                const idx = users.findIndex(u => u.user === currentUser.user);
+                if(idx !== -1) users[idx] = currentUser;
+            }
+            
+            try {
+                await bulkPut('users', users);
+                await bulkPut('products', products);
+            } catch (e) {
+                console.error("Error guardando datos", e);
+                showToast("Error al guardar datos", "error");
+            }
+        }
+
+        async function saveDrafts() {
+            const drafts = {};
+            document.querySelectorAll('.input-draft').forEach(input => {
+                drafts[input.id] = input.value;
+            });
+            try {
+                await setMeta('drafts', drafts);
+                const indicator = document.getElementById('prod-autosave');
+                if(indicator) {
+                    indicator.classList.add('visible');
+                    setTimeout(() => indicator.classList.remove('visible'), 1000);
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        async function loadDrafts() {
+            try {
+                const drafts = await getMeta('drafts');
+                if(drafts) {
+                    Object.keys(drafts).forEach(id => {
+                        const el = document.getElementById(id);
+                        if(el) el.value = drafts[id];
+                    });
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        window.addEventListener('beforeunload', () => {
+            saveData();
+            saveDrafts();
+        });
 
         // --- SISTEMA DE NOTIFICACIONES (TOAST) ---
         function showToast(message, type = 'success') {
@@ -1086,9 +1381,52 @@
             modal.classList.remove('active');
         }
 
-        // --- LÓGICA DE SEGUIR TIENDA ---
-        function followStore(username) {
-            checkGuestInfo(() => {
+        // --- LÓGICA DE FILTROS ---
+        function resetFilters() {
+            filterSeller = null; 
+            document.getElementById('dept-filter').value = 'all';
+            document.getElementById('search-input').value = '';
+            document.getElementById('catalog-title').innerText = "Explora todo";
+            document.getElementById('catalog-subtitle').innerText = "Buscando en todo Bolivia";
+            
+            // Ocultar botón volver al resetear
+            const backBar = document.getElementById('catalog-back-bar');
+            if(backBar) backBar.classList.remove('visible');
+        }
+
+        // --- SISTEMA DE INVITADO (INDEXEDDB) ---
+        async function checkGuestInfo(callback) {
+            if(guestInfo) {
+                callback();
+            } else {
+                pendingAction = callback;
+                document.getElementById('guest-modal').classList.add('active');
+            }
+        }
+
+        async function saveGuestInfo() {
+            const name = document.getElementById('guest-name').value;
+            const email = document.getElementById('guest-email').value;
+            
+            if(!name || !email || !email.includes('@')) {
+                showToast("Por favor completa tus datos correctamente", "error");
+                return;
+            }
+
+            guestInfo = { name, email };
+            await setMeta('guest_info', guestInfo);
+            
+            document.getElementById('guest-modal').classList.remove('active');
+            
+            if(pendingAction) {
+                pendingAction();
+                pendingAction = null;
+            }
+        }
+
+        // --- LÓGICA DE SEGUIR Y LIKES ---
+        async function followStore(username) {
+            checkGuestInfo(async () => {
                 const user = users.find(u => u.user === username);
                 if(user) {
                     if(!user.followers) user.followers = [];
@@ -1097,13 +1435,13 @@
                     
                     if(emailIndex === -1) {
                         user.followers.push(guestInfo.email);
-                        saveData();
+                        await saveData();
                         showToast("¡Siguiendo tienda! Te notificaremos cuando haya novedades.");
                         renderStoresList();
                         filterProducts();
                     } else {
                         user.followers.splice(emailIndex, 1);
-                        saveData();
+                        await saveData();
                         showToast("Has dejado de seguir esta tienda.");
                         renderStoresList();
                         filterProducts();
@@ -1112,9 +1450,8 @@
             });
         }
 
-        // --- LÓGICA DE LIKES ---
-        function likeProduct(id, btnElement, isModal = false) {
-            checkGuestInfo(() => {
+        async function likeProduct(id, btnElement, isModal = false) {
+            checkGuestInfo(async () => {
                 const product = products.find(p => p.id === id);
                 if(product) {
                     if(!product.likedBy) {
@@ -1127,13 +1464,11 @@
 
                     if(!alreadyLiked) {
                         product.likedBy.push(email);
-                        saveData();
+                        await saveData();
                         
-                        // Actualizar UI en tarjeta
                         const span = btnElement.querySelector('span');
                         if(span && !isModal) span.innerText = product.likedBy.length;
                         
-                        // Actualizar UI en modal si es aplicable
                         const modalLikeText = document.getElementById('pdm-like-btn');
                         if(modalLikeText) modalLikeText.innerHTML = `❤️ Me gusta (${product.likedBy.length})`;
 
@@ -1150,273 +1485,7 @@
             });
         }
 
-        // --- NUEVO: MODAL DETALLE PRODUCTO (MÓVIL) ---
-        function openProductDetailModal(id) {
-            const product = products.find(p => p.id === id);
-            if(!product) return;
-
-            const seller = users.find(u => u.user === product.seller);
-            const waMsg = `Hola, vi "${product.name}" en BO Emprendedores. ¿Disponible?`;
-            const waLink = `https://wa.me/${product.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
-
-            // Rellenar datos básicos
-            document.getElementById('pdm-img').src = product.img;
-            document.getElementById('pdm-tag').innerText = product.dept;
-            document.getElementById('pdm-title').innerText = product.name;
-            document.getElementById('pdm-price').innerText = `Bs. ${product.price}`;
-            document.getElementById('pdm-desc').innerText = product.desc;
-            
-            // Botón WhatsApp
-            const waBtn = document.getElementById('pdm-whatsapp-btn');
-            waBtn.onclick = function() { window.open(waLink, '_blank'); };
-
-            // Botón Like
-            const likeCount = product.likedBy ? product.likedBy.length : 0;
-            const likeBtn = document.getElementById('pdm-like-btn');
-            likeBtn.innerHTML = `❤️ Me gusta (${likeCount})`;
-            likeBtn.onclick = function() { likeProduct(product.id, this, true); };
-
-            // --- MOSTRAR DETALLES ESPECÍFICOS ---
-            const detailsContainer = document.getElementById('pdm-details-section');
-            detailsContainer.innerHTML = '';
-            
-            // Chequear si existe algún detalle
-            const hasDetails = product.details || 
-                                (product.detailsState || product.detState) || 
-                                (product.sizes && product.sizes.length) || 
-                                (product.colors && product.colors.length) ||
-                                product.detMaterial || product.detSleeve || product.detNeck;
-
-            if(hasDetails) {
-                detailsContainer.classList.remove('hidden');
-                let html = '';
-
-                // Estado
-                const state = product.detailsState || product.detState || '';
-                if(state) html += `<div class="detail-row"><span class="detail-label">Estado:</span> <span class="detail-value">${state}</span></div>`;
-
-                // Tallas
-                const sizes = product.sizes || [];
-                if(sizes.length) {
-                    const badges = sizes.map(s => `<span class="detail-badge">${s}</span>`).join('');
-                    html += `<div class="detail-row"><span class="detail-label">Tallas:</span> <span class="detail-value">${badges}</span></div>`;
-                }
-
-                // Colores
-                const colors = product.colors || [];
-                if(colors.length) {
-                    const badges = colors.map(c => `<span class="detail-badge">${c}</span>`).join('');
-                    html += `<div class="detail-row"><span class="detail-label">Colores:</span> <span class="detail-value">${badges}</span></div>`;
-                }
-
-                // Otros
-                if(product.detMaterial) html += `<div class="detail-row"><span class="detail-label">Material:</span> <span class="detail-value">${product.detMaterial}</span></div>`;
-                if(product.detSleeve) html += `<div class="detail-row"><span class="detail-label">Manga:</span> <span class="detail-value">${product.detSleeve}</span></div>`;
-                if(product.detNeck) html += `<div class="detail-row"><span class="detail-label">Cuello:</span> <span class="detail-value">${product.detNeck}</span></div>`;
-
-                detailsContainer.innerHTML = html;
-            } else {
-                detailsContainer.classList.add('hidden');
-            }
-
-            document.getElementById('product-detail-modal').classList.add('active');
-        }
-
-        function closeProductDetailModal() {
-            document.getElementById('product-detail-modal').classList.remove('active');
-        }
-
-        // --- SISTEMA DE INVITADO (LOGIN RÁPIDO) ---
-        function checkGuestInfo(callback) {
-            if(guestInfo) {
-                callback();
-            } else {
-                pendingAction = callback;
-                document.getElementById('guest-modal').classList.add('active');
-            }
-        }
-
-        function saveGuestInfo() {
-            const name = document.getElementById('guest-name').value;
-            const email = document.getElementById('guest-email').value;
-            
-            if(!name || !email || !email.includes('@')) {
-                showToast("Por favor completa tus datos correctamente", "error");
-                return;
-            }
-
-            guestInfo = { name, email };
-            localStorage.setItem('guest_info', JSON.stringify(guestInfo));
-            
-            document.getElementById('guest-modal').classList.remove('active');
-            
-            if(pendingAction) {
-                pendingAction();
-                pendingAction = null;
-            }
-        }
-
-        function openAddUserModal() {
-            const html = `
-                <div class="form-group">
-                    <label>Usuario</label>
-                    <input type="text" id="new-user-u" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="text" id="new-user-p" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="text" id="new-user-ph" class="form-control">
-                </div>
-            `;
-            openModal("Nuevo Vendedor", html, () => {
-                const u = document.getElementById('new-user-u').value;
-                const p = document.getElementById('new-user-p').value;
-                const ph = document.getElementById('new-user-ph').value;
-                
-                if(!u || !p || !ph) {
-                    showToast("Todos los campos son obligatorios", "error");
-                    return false;
-                }
-
-                if(users.find(x => x.user === u)) {
-                    showToast("El usuario ya existe", "error");
-                    return false;
-                }
-
-                users.push({
-                    user:u, pass:p, role:'vendedor', phone:ph, 
-                    storeName:'', storeLogo:'', storeCover:'',
-                    fullname: u, storeDept: 'La Paz', storeType: 'online', followers: []
-                });
-                saveData();
-                renderUsers();
-                showToast("Vendedor creado con éxito");
-                return true;
-            });
-        }
-
-        // --- NUEVO: GENERADOR DE HTML PARA BADGES DE TIPO DE TIENDA ---
-        function getStoreTypeBadgeHTML(type) {
-            switch(type) {
-                case 'fisica': return '<span class="store-type-badge type-physical">Tienda Física</span>';
-                case 'hibrida': return '<span class="store-type-badge type-hybrid">Online + Física</span>';
-                case 'online': 
-                default: return '<span class="store-type-badge type-online">Tienda Online</span>';
-            }
-        }
-
-        // --- UTILIDAD DE COMPRESIÓN DE IMÁGENES ---
-        function resizeAndCompressImage(file, maxWidth, maxHeight, callback) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (event) => {
-                const img = new Image();
-                img.src = event.target.result;
-                img.onload = () => {
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height *= maxWidth / width;
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width *= maxHeight / height;
-                            height = maxHeight;
-                        }
-                    }
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.7));
-                };
-            };
-        }
-
-        // --- SISTEMA DE AUTOSAVE (BORRADORES) ---
-        function setupAutosave() {
-            const inputs = document.querySelectorAll('.input-draft');
-            inputs.forEach(input => {
-                input.addEventListener('input', () => {
-                    saveDrafts();
-                });
-            });
-        }
-
-        function saveDrafts() {
-            const drafts = {};
-            document.querySelectorAll('.input-draft').forEach(input => {
-                drafts[input.id] = input.value;
-            });
-            localStorage.setItem('bo_drafts', JSON.stringify(drafts));
-            
-            const indicator = document.getElementById('prod-autosave');
-            if(indicator) {
-                indicator.classList.add('visible');
-                setTimeout(() => indicator.classList.remove('visible'), 1000);
-            }
-        }
-
-        function loadDrafts() {
-            const drafts = JSON.parse(localStorage.getItem('bo_drafts'));
-            if(drafts) {
-                Object.keys(drafts).forEach(id => {
-                    const el = document.getElementById(id);
-                    if(el) el.value = drafts[id];
-                });
-            }
-        }
-
-        window.addEventListener('beforeunload', () => {
-            saveData();
-            saveDrafts();
-        });
-
-        // --- DATOS INICIALES ---
-        const defaultUsers = [
-            { 
-                user: 'admin', pass: '1234', role: 'admin', phone: '61348083', 
-                storeName: 'Oficial BO', storeLogo: 'https://picsum.photos/seed/logo1/100/100', storeCover: 'https://picsum.photos/seed/cover1/300/150', fullname: 'Administrador',
-                storeDept: 'La Paz', storeType: 'hibrida', followers: []
-            },
-            { 
-                user: 'vendedor', pass: '1234', role: 'vendedor', phone: '71234567', 
-                storeName: 'Modas Juan', storeLogo: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=150', storeCover: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?q=80&w=300', fullname: 'Juan Pérez',
-                storeDept: 'Santa Cruz', storeType: 'online', followers: ['cliente1@mail.com']
-            }
-        ];
-
-        const defaultProducts = [
-            { id: 1, name: "Blazer Elegante", category: "Chaqueta", price: 250, dept: "La Paz", img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1936", seller: "vendedor", desc: "Elegancia pura.", sellerPhone: "71234567", stock: 5, likedBy: [] },
-            { id: 2, name: "Vestido Floral", category: "Vestido", price: 180, dept: "Santa Cruz", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1887", seller: "vendedor", desc: "Para el verano.", sellerPhone: "71234567", stock: 10, likedBy: [] },
-            { id: 3, name: "Zapatillas Urbanas", category: "Zapatillas", price: 300, dept: "Cochabamba", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070", seller: "admin", desc: "Estilo urbano.", sellerPhone: "61348083", stock: 2, likedBy: [] }
-        ];
-
-        let users = JSON.parse(localStorage.getItem('bo_users')) || defaultUsers;
-        let products = JSON.parse(localStorage.getItem('bo_products')) || defaultProducts;
-        let currentUser = null;
-        let filterSeller = null; 
-        
-        let tempProdImg = null;
-        let tempStoreLogo = null;
-        let tempStoreCover = null;
-
-        function saveData() {
-            if(currentUser) {
-                users = users.map(u => u.user === currentUser.user ? currentUser : u);
-            }
-            localStorage.setItem('bo_users', JSON.stringify(users));
-            localStorage.setItem('bo_products', JSON.stringify(products));
-        }
-
+        // --- NAVEGACIÓN Y VISTAS ---
         function toggleMenu() {
             const navLinks = document.getElementById('nav-links-list');
             navLinks.classList.toggle('active');
@@ -1435,6 +1504,22 @@
                 setupAutosave(); 
             }
             if(viewName === 'stores') renderStoresList();
+        }
+
+        // --- NUEVA FUNCIÓN: VOLVER ATRÁS ---
+        function goBack() {
+            filterSeller = null; // Salir del modo tienda específica
+            
+            // Ocultar barra de volver
+            const backBar = document.getElementById('catalog-back-bar');
+            if(backBar) backBar.classList.remove('visible');
+
+            if (navigationSource === 'stores') {
+                showView('stores');
+            } else {
+                resetFilters();
+                showView('catalog');
+            }
         }
 
         function login() {
@@ -1480,6 +1565,16 @@
                 navLogout.classList.add('hidden');
                 navAdmin.classList.add('hidden');
                 navSeller.classList.add('hidden');
+            }
+        }
+
+        // --- RENDERIZADO Y LÓGICA DE TIENDAS ---
+        function getStoreTypeBadgeHTML(type) {
+            switch(type) {
+                case 'fisica': return '<span class="store-type-badge type-physical">Tienda Física</span>';
+                case 'hibrida': return '<span class="store-type-badge type-hybrid">Online + Física</span>';
+                case 'online': 
+                default: return '<span class="store-type-badge type-online">Tienda Online</span>';
             }
         }
 
@@ -1529,11 +1624,21 @@
             });
         }
 
+        // --- MODIFICADO: RASTRAE ORIGEN DE NAVEGACIÓN ---
         function enterSellerStore(username) {
+            // Detectar vista actual
+            const activeView = document.querySelector('.view-section:not(.hidden)');
+            if(activeView && activeView.id === 'view-stores') {
+                navigationSource = 'stores';
+            } else {
+                navigationSource = 'catalog'; // Default
+            }
+
             filterSeller = username;
             showView('catalog');
         }
 
+        // --- PANEL VENDEDOR ---
         function loadSellerPanel() {
             document.getElementById('seller-name-display').innerText = currentUser.user || 'Vendedor';
             
@@ -1595,7 +1700,7 @@
             });
         }
 
-        function updateProduct(id) {
+        async function updateProduct(id) {
             const prod = products.find(p => p.id === id);
             if(prod) {
                 const newPrice = parseFloat(document.getElementById(`price-${id}`).value);
@@ -1605,12 +1710,12 @@
 
                 prod.price = newPrice;
                 prod.stock = newStock;
-                saveData();
+                await saveData();
                 showToast("Producto actualizado correctamente.");
             }
         }
 
-        function saveSellerProfile() {
+        async function saveSellerProfile() {
             const name = document.getElementById('profile-fullname').value;
             const phone = document.getElementById('profile-phone').value;
             if(phone.length < 7) return showToast("Teléfono inválido", 'error');
@@ -1619,16 +1724,14 @@
             const originalText = btn.innerText;
             btn.innerText = "Guardando...";
             
-            setTimeout(() => {
+            setTimeout(async () => {
                 currentUser.fullname = name;
                 currentUser.phone = phone;
                 
-                saveData();
+                await saveData();
                 
-                const drafts = JSON.parse(localStorage.getItem('bo_drafts')) || {};
-                delete drafts['profile-fullname'];
-                delete drafts['profile-phone'];
-                localStorage.setItem('bo_drafts', JSON.stringify(drafts));
+                // Limpiar draft de estos campos específicos manualmente si se desea, 
+                // aunque saveDrafts maneja todo lo que tiene clase input-draft
                 
                 btn.innerText = "Guardado ✓";
                 btn.classList.add('btn-action-save');
@@ -1639,6 +1742,39 @@
                     btn.classList.remove('btn-action-save');
                 }, 2000);
             }, 300);
+        }
+
+        // --- MANEJO DE IMÁGENES (COMO EN EL ORIGINAL) ---
+        function resizeAndCompressImage(file, maxWidth, maxHeight, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    callback(canvas.toDataURL('image/jpeg', 0.7));
+                };
+            };
         }
 
         function previewStoreLogo(e) {
@@ -1665,7 +1801,19 @@
             }
         }
 
-        function saveStoreConfig() {
+        function previewProductImage(e) {
+            const file = e.target.files[0];
+            if(file) {
+                resizeAndCompressImage(file, 300, 300, (base64) => {
+                    tempProdImg = base64;
+                    document.getElementById('prod-img-preview').src = tempProdImg;
+                    document.getElementById('prod-img-preview').style.display = 'block';
+                });
+            }
+        }
+
+        // --- GUARDADO DE TIENDA Y PRODUCTOS ---
+        async function saveStoreConfig() {
             const name = document.getElementById('store-name-input').value;
             const type = document.getElementById('store-type-input').value; 
             const dept = document.getElementById('store-dept-input').value;
@@ -1675,20 +1823,14 @@
             const originalText = btn.innerText;
             btn.innerText = "Guardando...";
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 currentUser.storeName = name;
                 currentUser.storeType = type; 
                 currentUser.storeDept = dept;
                 if(tempStoreLogo) currentUser.storeLogo = tempStoreLogo;
                 if(tempStoreCover) currentUser.storeCover = tempStoreCover;
                 
-                saveData();
-
-                const drafts = JSON.parse(localStorage.getItem('bo_drafts')) || {};
-                delete drafts['store-name-input'];
-                delete drafts['store-type-input'];
-                delete drafts['store-dept-input'];
-                localStorage.setItem('bo_drafts', JSON.stringify(drafts));
+                await saveData();
                 
                 btn.innerText = "Guardado ✓";
                 btn.classList.add('btn-action-save');
@@ -1701,18 +1843,7 @@
             }, 300);
         }
 
-        function previewProductImage(e) {
-            const file = e.target.files[0];
-            if(file) {
-                resizeAndCompressImage(file, 300, 300, (base64) => {
-                    tempProdImg = base64;
-                    document.getElementById('prod-img-preview').src = tempProdImg;
-                    document.getElementById('prod-img-preview').style.display = 'block';
-                });
-            }
-        }
-
-        function addProduct() {
+        async function addProduct() {
             const name = document.getElementById('prod-name').value;
             const price = document.getElementById('prod-price').value;
             const stock = document.getElementById('prod-stock').value;
@@ -1720,7 +1851,6 @@
             const dept = document.getElementById('prod-dept').value;
             const desc = document.getElementById('prod-desc').value;
             
-            // Capturar detalles opcionales
             const state = document.getElementById('prod-state').value;
             const s1 = document.getElementById('size-1').value;
             const s2 = document.getElementById('size-2').value;
@@ -1732,7 +1862,6 @@
             const sleeve = document.getElementById('det-sleeve').value;
             const neck = document.getElementById('det-neck').value;
 
-            // Arrays de tallas y colores
             const sizes = [s1, s2, s3].filter(s => s.trim() !== '');
             const colors = [c1, c2, c3].filter(c => c.trim() !== '');
 
@@ -1742,7 +1871,7 @@
             const originalText = btn.innerText;
             btn.innerText = "Publicando...";
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 const newProd = {
                     id: Date.now(),
                     name, category: cat, price: parseFloat(price), stock: parseInt(stock)||1, desc, dept,
@@ -1750,7 +1879,6 @@
                     seller: currentUser.user,
                     sellerPhone: currentUser.phone || "61348083",
                     likedBy: [],
-                    // NUEVOS CAMPOS
                     detState: state,
                     sizes: sizes,
                     colors: colors,
@@ -1760,7 +1888,7 @@
                 };
                 
                 products.unshift(newProd);
-                saveData();
+                await saveData();
                 
                 const followersCount = currentUser.followers ? currentUser.followers.length : 0;
                 if(followersCount > 0) {
@@ -1769,7 +1897,6 @@
 
                 showToast("¡Producto guardado!");
                 
-                // Limpiar formulario
                 document.getElementById('prod-name').value = '';
                 document.getElementById('prod-price').value = '';
                 document.getElementById('prod-stock').value = '';
@@ -1778,7 +1905,6 @@
                 document.getElementById('prod-img-preview').style.display = 'none';
                 tempProdImg = null;
                 
-                // Limpiar detalles
                 document.getElementById('prod-state').value = '';
                 document.getElementById('size-1').value = '';
                 document.getElementById('size-2').value = '';
@@ -1790,7 +1916,7 @@
                 document.getElementById('det-sleeve').value = '';
                 document.getElementById('det-neck').value = '';
 
-                saveDrafts(); 
+                await saveDrafts(); 
                 
                 btn.innerText = "Guardado ✓";
                 btn.classList.add('btn-action-save');
@@ -1804,16 +1930,91 @@
             }, 500);
         }
 
-        function deleteProduct(id) {
+        async function deleteProduct(id) {
             if(confirm("¿Seguro que quieres borrar este producto?")) {
                 products = products.filter(p => p.id !== id);
-                saveData();
+                await saveData();
                 showToast("Producto eliminado");
                 renderMyProducts();
             }
         }
 
-        // --- CATALOGO (LOGICA ACTUALIZADA CON VISTA MÓVIL) ---
+        function setupAutosave() {
+            const inputs = document.querySelectorAll('.input-draft');
+            inputs.forEach(input => {
+                input.removeEventListener('input', saveDrafts); // Evitar duplicados
+                input.addEventListener('input', saveDrafts);
+            });
+        }
+
+        // --- CATALOGO Y MODAL DETALLE ---
+        function openProductDetailModal(id) {
+            const product = products.find(p => p.id === id);
+            if(!product) return;
+
+            const seller = users.find(u => u.user === product.seller);
+            const waMsg = `Hola, vi "${product.name}" en BO Emprendedores. ¿Disponible?`;
+            const waLink = `https://wa.me/${product.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
+
+            document.getElementById('pdm-img').src = product.img;
+            document.getElementById('pdm-tag').innerText = product.dept;
+            document.getElementById('pdm-title').innerText = product.name;
+            document.getElementById('pdm-price').innerText = `Bs. ${product.price}`;
+            document.getElementById('pdm-desc').innerText = product.desc;
+            
+            const waBtn = document.getElementById('pdm-whatsapp-btn');
+            waBtn.onclick = function() { window.open(waLink, '_blank'); };
+
+            const likeCount = product.likedBy ? product.likedBy.length : 0;
+            const likeBtn = document.getElementById('pdm-like-btn');
+            likeBtn.innerHTML = `❤️ Me gusta (${likeCount})`;
+            likeBtn.onclick = function() { likeProduct(product.id, this, true); };
+
+            const detailsContainer = document.getElementById('pdm-details-section');
+            detailsContainer.innerHTML = '';
+            
+            const hasDetails = product.details || 
+                                (product.detailsState || product.detState) || 
+                                (product.sizes && product.sizes.length) || 
+                                (product.colors && product.colors.length) ||
+                                product.detMaterial || product.detSleeve || product.detNeck;
+
+            if(hasDetails) {
+                detailsContainer.classList.remove('hidden');
+                let html = '';
+
+                const state = product.detailsState || product.detState || '';
+                if(state) html += `<div class="detail-row"><span class="detail-label">Estado:</span> <span class="detail-value">${state}</span></div>`;
+
+                const sizes = product.sizes || [];
+                if(sizes.length) {
+                    const badges = sizes.map(s => `<span class="detail-badge">${s}</span>`).join('');
+                    html += `<div class="detail-row"><span class="detail-label">Tallas:</span> <span class="detail-value">${badges}</span></div>`;
+                }
+
+                const colors = product.colors || [];
+                if(colors.length) {
+                    const badges = colors.map(c => `<span class="detail-badge">${c}</span>`).join('');
+                    html += `<div class="detail-row"><span class="detail-label">Colores:</span> <span class="detail-value">${badges}</span></div>`;
+                }
+
+                if(product.detMaterial) html += `<div class="detail-row"><span class="detail-label">Material:</span> <span class="detail-value">${product.detMaterial}</span></div>`;
+                if(product.detSleeve) html += `<div class="detail-row"><span class="detail-label">Manga:</span> <span class="detail-value">${product.detSleeve}</span></div>`;
+                if(product.detNeck) html += `<div class="detail-row"><span class="detail-label">Cuello:</span> <span class="detail-value">${product.detNeck}</span></div>`;
+
+                detailsContainer.innerHTML = html;
+            } else {
+                detailsContainer.classList.add('hidden');
+            }
+
+            document.getElementById('product-detail-modal').classList.add('active');
+        }
+
+        function closeProductDetailModal() {
+            document.getElementById('product-detail-modal').classList.remove('active');
+        }
+
+        // --- MODIFICADO: GESTIONA VISIBILIDAD DE BOTÓN VOLVER ---
         function filterProducts() {
             const dept = document.getElementById('dept-filter').value;
             const search = document.getElementById('search-input').value.toLowerCase();
@@ -1821,26 +2022,28 @@
             const title = document.getElementById('catalog-title');
             const subtitle = document.getElementById('catalog-subtitle');
 
-            // Referencias al Banner de Tienda
+            // Referencias al Banner de Tienda y Botón Volver
             const shopBannerContainer = document.getElementById('shop-banner-container');
             const standardHeader = document.getElementById('standard-catalog-header');
+            const backBar = document.getElementById('catalog-back-bar');
 
             grid.innerHTML = '';
 
-            // --- DETECCIÓN DE MODO MÓVIL Y TIENDA ---
             const isMobile = window.innerWidth <= 768;
             const isStoreView = !!filterSeller;
             const useMobileGrid = isMobile && isStoreView;
 
-            // LÓGICA PRINCIPAL: ¿Estamos viendo una tienda específica?
+            // --- MANEJO DE VISIBILIDAD ---
             if (filterSeller) {
+                // Estamos viendo una tienda específica
+                backBar.classList.add('visible'); // Mostrar Botón Volver
+
                 const sellerInfo = users.find(u => u.user === filterSeller);
                 
                 if (sellerInfo) {
                     shopBannerContainer.style.display = 'block';
                     standardHeader.style.display = 'none'; 
 
-                    // Llenar datos del banner
                     document.getElementById('shop-banner-cover-img').src = sellerInfo.storeCover || 'https://via.placeholder.com/600x200';
                     document.getElementById('shop-banner-logo-img').src = sellerInfo.storeLogo || 'https://via.placeholder.com/100';
                     document.getElementById('shop-banner-title-text').innerText = sellerInfo.storeName || "Tienda sin nombre";
@@ -1858,6 +2061,8 @@
                     title.innerText = "Tienda no encontrada";
                 }
             } else {
+                // Estamos en modo general
+                backBar.classList.remove('visible'); // Ocultar Botón Volver
                 shopBannerContainer.style.display = 'none';
                 standardHeader.style.display = 'block';
                 title.innerText = "Explora todo";
@@ -1873,7 +2078,6 @@
 
             if(filtered.length === 0) grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Sin resultados.</p>';
 
-            // --- CLASE PARA ACTIVAR ESTILOS MÓVILES ---
             if(useMobileGrid) {
                 grid.classList.add('mobile-store-view');
             } else {
@@ -1881,20 +2085,31 @@
             }
 
             filtered.forEach(p => {
-                // SI ES MÓVIL Y TIENDA: RENDERIZAR SIMPLE (SOLO IMAGEN)
+                // --- NUEVA LÓGICA PARA MÓVIL: MOSTRAR CORAZÓN ---
                 if(useMobileGrid) {
+                    const likesCount = p.likedBy ? p.likedBy.length : 0;
+                    const isLiked = guestInfo && p.likedBy && p.likedBy.includes(guestInfo.email);
+                    const heartClass = isLiked ? 'mobile-like-overlay liked' : 'mobile-like-overlay';
+
                     const div = document.createElement('div');
                     div.className = 'product-card';
+                    // Al hacer clic en la tarjeta, abrimos detalles, a menos que sea en el corazón
                     div.onclick = () => openProductDetailModal(p.id);
                     
                     div.innerHTML = `
-                        <img src="${p.img}" class="product-img">
+                        <div class="mobile-img-wrapper">
+                            <img src="${p.img}" class="product-img">
+                            <!-- Botón Like Overlay -->
+                            <div class="${heartClass}" onclick="event.stopPropagation(); likeProduct(${p.id}, this)">
+                                ❤️ <span>${likesCount}</span>
+                            </div>
+                        </div>
                     `;
                     grid.appendChild(div);
                     return; 
                 }
 
-                // SINO: RENDERIZAR TARJETA NORMAL
+                // --- RENDERIZADO NORMAL (PC / GENERAL) ---
                 const waMsg = `Hola, vi "${p.name}" en BO Emprendedores. ¿Disponible?`;
                 const waLink = `https://wa.me/${p.sellerPhone}?text=${encodeURIComponent(waMsg)}`;
 
@@ -1945,7 +2160,6 @@
                             <div class="card-actions">
                                 <button class="btn-blue" onclick="enterSellerStore('${p.seller}')">Ver Tienda</button>
                                 <button class="btn-green" onclick="window.open('${waLink}', '_blank')">WhatsApp</button>
-                                <!-- NUEVO BOTÓN DETALLES -->
                                 <button class="btn-orange" onclick="openProductDetailModal(${p.id})">Detalles</button>
                             </div>
                         </div>
@@ -1955,6 +2169,48 @@
         }
 
         // --- ADMIN ---
+        function openAddUserModal() {
+            const html = `
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="new-user-u" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="text" id="new-user-p" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="new-user-ph" class="form-control">
+                </div>
+            `;
+            openModal("Nuevo Vendedor", html, async () => {
+                const u = document.getElementById('new-user-u').value;
+                const p = document.getElementById('new-user-p').value;
+                const ph = document.getElementById('new-user-ph').value;
+                
+                if(!u || !p || !ph) {
+                    showToast("Todos los campos son obligatorios", "error");
+                    return false;
+                }
+
+                if(users.find(x => x.user === u)) {
+                    showToast("El usuario ya existe", "error");
+                    return false;
+                }
+
+                users.push({
+                    user:u, pass:p, role:'vendedor', phone:ph, 
+                    storeName:'', storeLogo:'', storeCover:'',
+                    fullname: u, storeDept: 'La Paz', storeType: 'online', followers: []
+                });
+                await saveData();
+                renderUsers();
+                showToast("Vendedor creado con éxito");
+                return true;
+            });
+        }
+
         function renderUsers() {
             const tbody = document.getElementById('users-list-body');
             tbody.innerHTML = '';
@@ -1972,17 +2228,18 @@
             });
         }
 
-        function delUser(u) { 
+        async function delUser(u) { 
             if(confirm("Borrar usuario permanentemente?")) { 
                 users = users.filter(x=>x.user!==u); 
-                saveData(); 
+                await saveData(); 
                 renderUsers(); 
                 showToast("Usuario eliminado");
             } 
         }
 
-        // Inicialización
-        showView('home');
+        // Arrancar la App
+        initApp();
+
     </script>
 </body>
 </html>
